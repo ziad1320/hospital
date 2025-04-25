@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practo Ray - Medical Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* Login/Signup Page Styles */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .auth-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 2px solid #e0e0e0;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            color: #0275d8;
+            border-bottom: 2px solid #0275d8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0275d8;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #025aa5;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .form-footer a {
+            color: #0275d8;
+            text-decoration: none;
+        }
+
+        /* Portal Header Styles */
+        .portal-header {
+            background-color: #025aa5;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-dot {
+            color: #74d1ea;
+            margin-right: 4px;
+            font-size: 28px;
+        }
+
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-item {
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .nav-item.active {
+            border-bottom: 3px solid white;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 300px;
+            margin: 0 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: none;
+        }
+
+        .right-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .icon-btn {
+            color: white;
+            margin-left: 15px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .profile-name {
+            margin-right: 10px;
+        }
+
+        /* Patient Profile Styles */
+        .main-container {
+            padding: 20px;
+        }
+
+        .patient-info-bar {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .patient-basic-info {
+            display: flex;
+        }
+
+        .patient-name {
+            font-weight: 500;
+            margin-right: 20px;
+        }
+
+        .patient-details {
+            color: #666;
+        }
+
+        .action-buttons {
+            display: flex;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            margin-left: 10px;
+            border-radius: 4px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .primary-btn {
+            background-color: #0275d8;
+            color: white;
+        }
+
+        .outline-btn {
+            background-color: transparent;
+            border: 1px solid #0275d8;
+            color: #0275d8;
+        }
+
+        .tab-menu {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab-menu .tab-item {
+            padding: 10px 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-menu .tab-item.active {
+            border-bottom: 3px solid #0275d8;
+            color: #0275d8;
+        }
+
+        .profile-content {
+            display: flex;
+        }
+
+        .profile-left {
+            flex: 3;
+            padding-right: 30px;
+        }
+
+        .profile-right {
+            flex: 2;
+            padding-left: 20px;
+            border-left: 1px solid #eee;
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .profile-label {
+            flex: 1;
+            color: #777;
+            padding-right: 20px;
+            text-align: right;
+        }
+
+        .profile-value {
+            flex: 2;
+            font-weight: 500;
+        }
+
+        .card-title {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .edit-link {
+            font-size: 14px;
+            color: #0275d8;
+            text-decoration: none;
+        }
+
+        .patient-note {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .note-content {
+            margin-bottom: 5px;
+        }
+
+        .note-meta {
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* Doctor Dashboard Styles */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-title {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .appointment-list {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+        }
+
+        .list-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .appointment-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .appointment-time {
+            width: 100px;
+            font-weight: 500;
+        }
+
+        .appointment-patient {
+            flex: 1;
+        }
+
+        .appointment-type {
+            width: 120px;
+            color: #666;
+        }
+
+        .appointment-status {
+            width: 100px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-confirmed {
+            background-color: #e3f7ea;
+            color: #28a745;
+        }
+
+        .status-waiting {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .appointment-actions {
+            width: 80px;
+            text-align: right;
+        }
+
+        /* Hide elements initially */
+        #loginForm, #signupForm, #doctorDashboard, #patientProfile {
+            display: none;
+        }
+
+        /* Initially show login form */
+        #loginForm {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login/Sign Up Section -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card">
+            <div class="tabs">
+                <div class="tab active" id="loginTab">Login</div>
+                <div class="tab" id="signupTab">Sign Up</div>
+            </div>
+            
+            <!-- Login Form -->
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="loginUserType">I am a</label>
+                    <select id="loginUserType">
+                        <option value="doctor">Doctor</option>
+                        <option value="patient">Patient</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" id="loginBtn">Login</button>
+                <div class="form-footer">
+                    <p>Forgot password? <a href="#">Reset here</a></p>
+                </div>
+            </form>
+            
+            <!-- Sign Up Form -->
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupName">Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create a password">
+                </div>
+                <div class="form-group">
+                    <label for="signupUserType">I am a</label>
+                    <select id="signupUserType">
+                        <option value="doctor">Doctor</option>
+                        <option value="patient">Patient</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" id="signupBtn">Sign Up</button>
+                <div class="form-footer">
+                    <p>Already have an account? <a href="#" id="switchToLogin">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Doctor Dashboard -->
+    <div id="doctorDashboard">
+        <!-- Portal Header -->
+        <div class="portal-header">
+            <div class="logo">
+                <span class="logo-dot">•</span> ray
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active">Calendar</a>
+                <a href="#" class="nav-item">Contacts</a>
+                <a href="#" class="nav-item">EMR</a>
+                <a href="#" class="nav-item">Billing</a>
+                <a href="#" class="nav-item">Reports</a>
+                <a href="#" class="nav-item">Communications</a>
+                <a href="#" class="nav-item">Notifications</a>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search">
+            </div>
+            <div class="right-section">
+                <div class="icon-btn">+</div>
+                <div class="icon-btn">?</div>
+                <div class="profile-info">
+                    <span class="profile-name">Dr. Smith</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doctor Dashboard Content -->
+        <div class="main-container">
+            <h1>Dashboard</h1>
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Today's Appointments</div>
+                    <div class="stat-value">12</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Patients Seen Today</div>
+                    <div class="stat-value">8</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Pending Reports</div>
+                    <div class="stat-value">3</div>
+                </div>
+            </div>
+
+            <div class="appointment-list">
+                <div class="list-title">Today's Schedule</div>
+                <div class="appointment-item">
+                    <div class="appointment-time">9:00 AM</div>
+                    <div class="appointment-patient">Neil S.</div>
+                    <div class="appointment-type">Follow-up</div>
+                    <div class="appointment-status">
+                        <span class="status-badge status-confirmed">Checked In</span>
+                    </div>
+                    <div class="appointment-actions">⋮</div>
+                </div>
+                <div class="appointment-item">
+                    <div class="appointment-time">10:30 AM</div>
+                    <div class="appointment-patient">Sarah M.</div>
+                    <div class="appointment-type">New Patient</div>
+                    <div class="appointment-status">
+                        <span class="status-badge status-waiting">Waiting</span>
+                    </div>
+                    <div class="appointment-actions">⋮</div>
+                </div>
+                <div class="appointment-item">
+                    <div class="appointment-time">11:15 AM</div>
+                    <div class="appointment-patient">James P.</div>
+                    <div class="appointment-type">Consultation</div>
+                    <div class="appointment-status">
+                        <span class="status-badge status-confirmed">Confirmed</span>
+                    </div>
+                    <div class="appointment-actions">⋮</div>
+                </div>
+                <div class="appointment-item">
+                    <div class="appointment-time">1:00 PM</div>
+                    <div class="appointment-patient">Anita G.</div>
+                    <div class="appointment-type">Follow-up</div>
+                    <div class="appointment-status">
+                        <span class="status-badge status-confirmed">Confirmed</span>
+                    </div>
+                    <div class="appointment-actions">⋮</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Patient Profile -->
+    <div id="patientProfile">
+        <!-- Portal Header -->
+        <div class="portal-header">
+            <div class="logo">
+                <span class="logo-dot">•</span> ray
+            </div>
+            <div class="nav-menu">
+                <a href="#" class="nav-item active">Calendar</a>
+                <a href="#" class="nav-item">Contacts</a>
+                <a href="#" class="nav-item">EMR</a>
+                <a href="#" class="nav-item">Billing</a>
+                <a href="#" class="nav-item">Reports</a>
+                <a href="#" class="nav-item">Communications</a>
+                <a href="#" class="nav-item">Notifications</a>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search">
+            </div>
+            <div class="right-section">
+                <div class="icon-btn">+</div>
+                <div class="icon-btn">?</div>
+                <div class="profile-info">
+                    <span class="profile-name">Practo Ray V6</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient Info Bar -->
+        <div class="main-container">
+            <div class="patient-info-bar">
+                <div class="patient-basic-info">
+                    <div class="patient-name">Neil S.</div>
+                    <div class="patient-details">Patient ID: P130412 | Male, 25 years | Medical History | INR 200.00 due</div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn outline-btn">View Profile</button>
+                    <button class="action-btn outline-btn">View EMR</button>
+                    <button class="action-btn outline-btn">View Billing</button>
+                    <button class="action-btn primary-btn">Select Patient ▼</button>
+                </div>
+            </div>
+
+            <!-- Profile Tabs -->
+            <div class="tab-menu">
+                <div class="tab-item active">Profile</div>
+                <div class="tab-item">Appointments</div>
+                <div class="tab-item">Communications</div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <div class="profile-left">
+                    <div class="profile-card">
+                        <h2 class="card-title">Patient Profile</h2>
+                        <div style="display: flex;">
+                            <div style="margin-right: 30px;">
+                                <div class="profile-photo">
+                                    <img src="https://via.placeholder.com/120" alt="Patient Photo">
+                                </div>
+                                <button class="btn" style="width: 120px; font-size: 12px; padding: 8px;">Change Photo</button>
+                            </div>
+                            <div style="flex: 1;">
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Patient Name :</div>
+                                    <div class="profile-value">Neil S.</div>
+                                </div>
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Patient ID :</div>
+                                    <div class="profile-value">P130412</div>
+                                </div>
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Gender :</div>
+                                    <div class="profile-value">Male</div>
+                                </div>
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Date of Birth :</div>
+                                    <div class="profile-value">05-Apr-1988</div>
+                                </div>
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Referred by :</div>
+                                    <div class="profile-value">Practo.com</div>
+                                </div>
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Blood Group :</div>
+                                    <div class="profile-value">O+</div>
+                                </div>
+                                <div class="profile-detail-row">
+                                    <div class="profile-label">Family :</div>
+                                    <div class="profile-value">
+                                        Parent : Girish V.<br>
+                                        Spouse : Anita G.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h2 class="card-title">Contact Details</h2>
+                        <div class="profile-detail-row">
+                            <div class="profile-label">Primary Mobile No. :</div>
+                            <div class="profile-value">+918987654321</div>
+                        </div>
+                        <div class="profile-detail-row">
+                            <div class="profile-label">Secondary Mobile No. :</div>
+                            <div class="profile-value">+917895432101</div>
+                        </div>
+                        <div class="profile-detail-row">
+                            <div class="profile-label">Land Line Nos. :</div>
+                            <div class="profile-value">+918025432101</div>
+                        </div>
+                        <div class="profile-detail-row">
+                            <div class="profile-label">Email Address :</div>
+                            <div class="profile-value">neils@someemail.com</div>
+                        </div>
+                        <div class="profile-detail-row">
+                            <div class="profile-label">Street Address :</div>
+                            <div class="profile-value">#10 4th Main 20th Cross</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-right">
+                    <div class="profile-card">
+                        <h2 class="card-title">Patient Notes</h2>
+                        <div class="form-group">
+                            <input type="text" placeholder="Type note here">
+                        </div>
+                        
+                        <div class="patient-note">
+                            <div class="note-content">routine check up on Wednesday</div>
+                            <div class="note-meta">Dr. Rashmi G on 22 April 2013</div>
+                        </div>
+                        
+                        <div class="patient-note">
+                            <div class="note-content">Needs wheelchair access.</div>
+                            <div class="note-meta">Dr. Anuraag D on 19 April 2013</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card">
+                        <h2 class="card-title">
+                            Medical History
+                            <a href="#" class="edit-link">Edit</a>
+                        </h2>
+                        <ul style="padding-left: 20px; color: #555;">
+                            <li>Allergies</li>
+                            <li>Undergone Dental Treatment Earlier</li>
+                            <li>Low Blood Pressure</li>
+                        </ul>
+                    </div>
+
+                    <div class="profile-card">
+                        <h2 class="card-title">
+                            Groups
+                            <a href="#" class="edit-link">Edit</a>
+                        </h2>
+                        <ul style="padding-left: 20px; color: #555;">
+                            <li>Corporate Patients</li>
+                            <li>Has Insurance</li>
+                            <li>Smoker</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching for login/signup
+        document.getElementById('loginTab').addEventListener('click', function() {
+            document.getElementById('loginTab').classList.add('active');
+            document.getElementById('signupTab').classList.remove('active');
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+        });
+
+        document.getElementById('signupTab').addEventListener('click', function() {
+            document.getElementById('signupTab').classList.add('active');
+            document.getElementById('loginTab').classList.remove('active');
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+        });
+
+        document.getElementById('switchToLogin').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('loginTab').click();
+        });
+
+        // Form submissions
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userType = document.getElementById('loginUserType').value;
+            
+            // Hide auth container
+            document.getElementById('authContainer').style.display = 'none';
+            
+            // Show appropriate dashboard based on user type
+            if (userType === 'doctor') {
+                document.getElementById('doctorDashboard').style.display = 'block';
+                document.getElementById('patientProfile').style.display = 'none';
+            } else {
+                document.getElementById('patientProfile').style.display = 'block';
+                document.getElementById('doctorDashboard').style.display = 'none';
+            }
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // For demo purposes, just switch to login after signup
+            alert('Account created! Please login.');
+            document.getElementById('loginTab').click();
+        });
+    </script>
+</body>
+</html>
